@@ -1,13 +1,10 @@
 import React from 'react';
 import { Container, Image } from 'react-bootstrap';
-import UserProfile from '../containers/UserProfile';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import scLogin from '../assets/connect-sc.png';
-import history from '../history';
 import { withRouter } from "react-router-dom";
-
 
 class Home extends React.Component {
 

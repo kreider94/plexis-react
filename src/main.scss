@@ -1,0 +1,143 @@
+
+
+body {
+  background-color: #d6dbda;
+}
+
+.App {
+  text-align: center;
+}
+
+.credit {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+#wrapper {
+  background-image: url("/gfx/plexis-bg.jpg");
+  background-color: #343a40;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#landing-wrapper {
+  padding-left: 150px;
+  padding-top: 200px;
+  background-image: url("./assets/plexis-bg.jpg");
+  height: 500px;
+}
+.landing-headline,
+.landing-subheadline {
+  color: white;
+  font-family: "raleway SemiBold";
+}
+.landing-headline {
+  font-size: 50px;
+}
+.landing-subheadline {
+  font-size: 20px;
+}
+
+.container-fluid {
+  background-color: #f4f3f3;
+}
+
+.search__bar {
+  min-width: 250px;
+  height: 50px;
+}
+.search__bar.input-group-text {
+  color: #48879e;
+}
+
+.search__bar .search__bar_input {
+  height: 50px;
+}
+
+.user__avatar {
+  width: auto;
+  height: 50px;
+}
+
+.user__username a {
+  color: #d5d1d1;
+  font-size: 1.3rem;
+  font-family: "Helvetica Neue";
+}
+.user__username a:hover {
+  color: #f4f3f3;
+}
+
+.sc__player {
+  width: 100% !important;
+  height: 200px !important;
+  position: relative;
+}
+
+.hovered__username {
+  position: absolute !important;
+  margin-right: 20px;
+  margin-top: 10px;
+  right: 0;
+  top: 0;
+  height: 40px;
+  width: auto;
+  background-color: #343a40 !important;
+}
+
+.card-title a,
+.card-title a:hover {
+  color: black;
+}
+
+.hovered__username .card-text {
+  padding: 5px;
+  font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans,
+    Garuda, Verdana, Tahoma, sans-serif;
+  font-size: 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.user__title {
+  position: relative;
+}
+
+.hover__note {
+  text-transform: lowercase;
+  color: grey;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  padding-left: 15px;
+  font-size: 12px;
+  text-align: center;
+  justify-content: center;
+}
+
+.hover__note_sc {
+  line-height: 22px;
+  position: absolute;
+}
+
+.user__title:hover .hover__note,
+.refresh:hover .hover__note {
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  overflow: visible;
+}
+
+.refresh {
+  cursor: pointer;
+}
+
+.hover__note_refresh {
+  line-height: 40px;
+  margin-left: 8px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}

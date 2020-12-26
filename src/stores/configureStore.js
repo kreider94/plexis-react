@@ -3,15 +3,25 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'react-router-redux';
-import rootReducer from '../reducers/index';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import rootReducer from '../reducers/index'
 
-const logger = createLogger();
 const router = routerMiddleware(createBrowserHistory);
+// const logger = createLogger();
 
-const createStoreWithMiddleware = applyMiddleware(thunk, router, logger)(createStore);
-
-function configureStore(initialState) {
- return createStoreWithMiddleware(rootReducer, initialState);
+const persistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['router']
 }
 
-export default configureStore;
+const createStoreWithMiddleware = applyMiddleware(thunk, router)(createStore);
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export default () => {
+  let store = createStoreWithMiddleware(persistedReducer)
+  let persistor = persistStore(store)
+  return { store, persistor }
+}

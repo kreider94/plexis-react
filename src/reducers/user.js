@@ -8,10 +8,6 @@ function setUser(state = initialState, action) {
       return Object.assign({}, state, {
         user: action.user
       })
-    case actionTypes.SET_MAIN_USER:
-      return Object.assign({}, state, {
-        user: action.user
-      })
     case actionTypes.ADD_SC_USERS:
       return { ...state, scUsers: action.payload }
     default:

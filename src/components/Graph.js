@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { Layer, Stage, Image } from 'react-konva';
+import { Layer, Stage, Text, Rect } from 'react-konva';
 import SC from 'soundcloud';
 import UserNode from './UserNode';
 
 const Graph = ({ user, handleChange, dispatch }) => {
 
-  const [relatedArtists, setRelatedArtists] = useState()
+  const [allArtists, setAllArtists] = useState([])
+  const [relatedArtists, setRelatedArtists] = useState([]);
+  const [hoveredArtist, setHoveredArtist] = useState(null);
 
+  const hoveredStyle = {
+
+  }
   useEffect(() => {
     if (user)
       populateUserProfile()
   }, [user])
 
+  // cache result in browser
   const populateUserProfile = () => {
     SC.get("/users/" + user.id + "/favorites", {
       limit: 200,
@@ -31,11 +37,21 @@ const Graph = ({ user, handleChange, dispatch }) => {
           });
           let scUsers = users.sort(function(a,b) { return (b.ranking) - (a.ranking) } ).splice(0, 30);
           dispatch({ type: "ADD_SC_USERS", payload: scUsers});
-          setRelatedArtists(scUsers)
+          setAllArtists(scUsers)
         }
       });
     })
   }
+
+  useEffect(() => {
+    if (allArtists.length) {
+      let relatedArtists = [];
+      while (allArtists.length) {
+        relatedArtists.push(allArtists.splice(0, allArtists.length > 24 ? 5 : 10));
+      }
+      setRelatedArtists(relatedArtists);
+    }
+  }, [allArtists])
 
   const getUniqueArtists = (array) => {
     const count = array =>
@@ -55,17 +71,45 @@ const Graph = ({ user, handleChange, dispatch }) => {
     })
   }
 
+  const handleHover = (artist) => {
+    if (artist) {
+      setHoveredArtist(artist);
+    } else {
+      setHoveredArtist(false);
+    }
+  }
+
   return (
-    relatedArtists ? (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          {relatedArtists.map((artist, index) => {
-            return <UserNode user={artist} handleClick={handleChange} index={index} key={index}/>;
-          })
-        }
-        </Layer>
-      </Stage>
-    ) : null
+      relatedArtists ? (
+        <Stage width={window.innerWidth} height={window.innerHeight}>
+         <Layer>
+            {hoveredArtist ? 
+              <Text 
+                text={hoveredArtist}
+                x={window.innerWidth-(window.innerWidth/2)}
+                y={100}
+                fontSize='34'
+                fontFamily='Helvetica Neue'
+                fontStyle='bold'
+                />
+            : null}
+            {relatedArtists.map((batch, batchNum) => {
+              return batch.map((artist, index) => {
+                return <UserNode 
+                  userId={artist.id}
+                  avatar={artist.avatar_url}
+                  username={artist.username}
+                  batch={batchNum}
+                  batchAmount={batch.length}
+                  handleClick={handleChange}
+                  handleHover={handleHover}
+                  index={index} 
+                  key={artist.id}/>;
+                })
+              })}
+          </Layer>
+        </Stage>
+      ) : null
   )
 }
 

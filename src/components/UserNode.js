@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Circle } from 'react-konva';
+import { Circle, Image } from 'react-konva';
+import useImage from 'use-image';
+import { Spring, animated } from 'react-spring/renderprops-konva';
 
-const UserNode = ({ user, handleClick, index }) => {
-  let timage
+const UserNode = ({ userId, avatar, username, batch, batchAmount, handleClick, handleHover, index }) => {
   const circleRef = React.useRef();
-  const [image, setImage] = useState(null);
+  const [hovered, setHovered] = useState(false);
+  const [image] = useImage(avatar);
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth
   })
-  const [radiusIndex, setRadiusIndex] = useState(0);
+  const [angle, setAngle] = useState(0);
 
-  useEffect(() => {
-    const loadImage = () => {
-      timage = new window.Image();
-      timage.src = user.avatar_url;
-      timage.addEventListener("load", handleLoad);
-    }
-    const handleLoad = () => {
-      setImage(timage);
-    }
-    loadImage();
-  }, [user]);
 
   useEffect(() => {
     const debouncedHandleResize = debounce(function handleResize() {
@@ -38,50 +29,22 @@ const UserNode = ({ user, handleClick, index }) => {
   })
 
   useEffect(() => {
-    circleRef.current.to({
-      x: getX(dimensions.width),
-      y: getY(dimensions.height),
-      opacity: 0.6,
-      duration: 0.5
-    })
-    circleRef.current.on('mouseover', () => {
-      circleRef.current.to({
-        scaleX: 1.2,
-        scaleY: 1.2,
-        opacity: 1,
-        duration: 0.2
-      })
-    })
-    circleRef.current.on('mouseleave', () => {
-      circleRef.current.to({
-        scaleX: 1,
-        scaleY: 1,
-        opacity: 0.6,
-        duration: 0.2
-      })
-    })
-  })
-
-  useEffect(() => {
-    if(index <= 4) {
-      setRadiusIndex(0);
-    }
-    else if(index >= 5 && index < 10) {
-      setRadiusIndex(1);
-    }
-    else if(index >= 10 && index < 15) {
-      setRadiusIndex(2);
-    }
-    else if(index >= 15 && index < 20) {
-      setRadiusIndex(3);
-    }
-    else if(index >= 20 && index < 25) {
-      setRadiusIndex(4);
-    }
-    else if(index >= 25 && index < 30) {
-      setRadiusIndex(5);
-    }
+    setAngle((((360/batchAmount) * index) + (batch % 2 === 0 ? (360/batchAmount)/2 : 0)) * (Math.PI / 180))
   }, [index])
+
+  const onMouseEnter = e => {
+    const container = e.target.getStage().container();
+    container.style.cursor = "pointer";
+    setHovered(true);
+    handleHover(username);
+  }
+
+  const onMouseLeave = e => {
+    const container = e.target.getStage().container();
+    container.style.cursor = "default";
+    setHovered(false);
+    handleHover(false);
+  }
 
   const debounce = (fn, ms) => {
     let timer
@@ -94,43 +57,33 @@ const UserNode = ({ user, handleClick, index }) => {
     };
   }
 
-  const getX = (width) => {
-    let radiusArr = [100, 200, 280, 370, 470, 570];
-    let angle = (index) * ((Math.PI * 2) / (5+(radiusIndex*2)));
-    return ((radiusArr[radiusIndex]) * Math.cos(angle)) + (width/3);
-  }
-
-  const getY = (height) => {
-    let radiusArr = [100, 200, 280, 370, 470, 570];
-    let angle = (index) * ((Math.PI * 2) / (5+(radiusIndex*2)));
-    return ((radiusArr[radiusIndex]) * Math.sin(angle)) + (height/2);
-  }
-
-
   return (
-    <Circle
-      key={user.id}
-      id={user.id}
-      x={dimensions.width/2}
-      y={dimensions.height/2}
-      opacity={0}
-      draggable
-      radius={50}
-      shadowBlur={10}
-      shadowOpacity={0.6}
-      fillPatternImage={image}
-      fillPatternOffset={{x: -50, y: -50}}
-      onClick={handleClick}
-      ref={circleRef}
-      onMouseEnter={e => {
-        const container = e.target.getStage().container();
-        container.style.cursor = "pointer";
+    <Spring
+      native
+      from={{ opacity: 0.6, shadowEnabled: true }}
+      to={{
+        opacity: hovered ? 1 : 0.6,
+        radius: hovered ? 50 : 40,
+        x: ((batch + 1) * 75 * Math.cos(angle)) + (dimensions.width/3),
+        y: ((batch + 1) * 75 * Math.sin(angle)) + (dimensions.height/2.5),
+        shadowEnabled: hovered ? true : false
       }}
-      onMouseLeave={e => {
-        const container = e.target.getStage().container();
-        container.style.cursor = "default";
-      }}
-    />
+    >
+      {props => (
+        <animated.Circle
+          {...props}
+          fillPatternImage={image}
+          fillPatternOffset={{x: -50, y: -50}}
+          key={userId}
+          id={userId}
+          image={image}
+          onClick={handleClick}
+          ref={circleRef}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          />
+      )}
+    </Spring>
   );
 };
 

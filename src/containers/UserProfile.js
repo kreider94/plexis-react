@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import SC from 'soundcloud';
 import Graph from '../components/Graph';
-import UserInfo from '../components/UserInfo';
+import Sidebar from '../components/Sidebar';
 import regeneratorRuntime from "regenerator-runtime";
-import { withRouter } from "react-router-dom";
 
 const UserProfile = ({ storedUser, dispatch }) => {
   const [ user, setUser ] = useState()
   const params = useParams()
-  const history = useHistory()
 
   useEffect(() => {
     const id = params.hasOwnProperty('id') ? params.id : '';
     if (storedUser && id === storedUser.id) {
       setUser(storedUser)
     } else {
-      history.push('/profile/'+id)
       resolveUser(id);
     }
   }, [])
@@ -40,16 +37,16 @@ const UserProfile = ({ storedUser, dispatch }) => {
     user ?
       <Row>
         <Col xs={2}>
-          <UserInfo user={user}/>
+          <Sidebar user={user}/>
         </Col>
         <Col>
           <Graph user={user} handleChange={handleChange}/>
         </Col>
       </Row>
       : null
-    )
-}
-
+      )
+    }
+    
 const mapStateToProps = (state) => {
   return {
     storedUser: state.user.user,

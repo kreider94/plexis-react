@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, Card, Row, NavDropdown } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Image, Row, NavDropdown } from 'react-bootstrap';
+import SC from 'soundcloud';
 
 const UserNav = ({ user }) => {
   return (
@@ -9,10 +9,14 @@ const UserNav = ({ user }) => {
         <Image className="user__avatar" src={user.avatar_url} roundedCircle />
         <NavDropdown className="user__username m-auto" title={user.username} id="collasible-nav-dropdown">
           <NavDropdown.Item href={`/profile/${user.id}`}>Home</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.2">Logout</NavDropdown.Item>
+          <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
         </NavDropdown>
       </Row>
     : null );
+}
+
+const Logout = () => {
+  SC.initialize({ client_id: null, redirect_uri: null });
 }
 
 export default UserNav;

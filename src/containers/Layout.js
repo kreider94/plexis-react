@@ -1,13 +1,18 @@
 import React from 'react';
-import { Container, Navbar, Form, FormControl, InputGroup, NavDropdown, Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import mainLogo from '../assets/logo.png';
 import { connect } from 'react-redux';
 import UserNav from '../components/UserNav';
+import SearchBar from '../components/SearchBar';
 
 const Layout = ({ user, dispatch }) => {
+
   return (
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">
+      <Navbar.Brand
+        href="#home" 
+        style={{backgroundColor:"#48879e", padding:'5px', borderRadius: '3px'}}
+      >
         <img
           src={mainLogo}
           width="200px"
@@ -16,19 +21,8 @@ const Layout = ({ user, dispatch }) => {
           alt="Plexis logo"
         />
       </Navbar.Brand>
-      <Form className="mx-auto" inline>
-        <InputGroup className="search__bar">
-          <InputGroup.Prepend>
-            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            placeholder="Username"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </InputGroup>
-      </Form> 
-      <UserNav user={user}/>
+      <SearchBar />
+      <UserNav className="plexis__menu" user={user}/>
     </Navbar>
   )
 }
