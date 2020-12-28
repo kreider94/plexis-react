@@ -8,7 +8,7 @@ import storage from 'redux-persist/lib/storage'
 import rootReducer from '../reducers/index'
 
 const router = routerMiddleware(createBrowserHistory);
-// const logger = createLogger();
+const logger = createLogger();
 
 const persistConfig = {
   key: 'root',
@@ -16,7 +16,7 @@ const persistConfig = {
   blacklist: ['router']
 }
 
-const createStoreWithMiddleware = applyMiddleware(thunk, router)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, router, logger)(createStore);
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

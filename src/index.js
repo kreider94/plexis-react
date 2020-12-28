@@ -15,6 +15,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { CLIENT_ID, REDIRECT_URI } from './constants/auth';
 import SC from 'soundcloud';
 import { PersistGate } from 'redux-persist/integration/react'
+import LoginPage from './components/LoginPage';
 
 SC.initialize({ client_id: CLIENT_ID, redirect_uri: REDIRECT_URI });
 
@@ -26,7 +27,7 @@ ReactDOM.render(
     <Layout/>
       <Router history={history}>
         <Route path="/" exact component={Home}/>
-        <Route path="/profile/:id" component={UserProfile} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/callback.html" component={Callback}/>
       </Router>
     </PersistGate>

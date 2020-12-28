@@ -112,29 +112,32 @@ body {
   white-space: nowrap;
   opacity: 0;
   padding-left: 15px;
-  font-size: 12px;
   text-align: center;
   justify-content: center;
+  font-size: 16px;
 }
 
 .hover__note_sc {
   line-height: 22px;
   position: absolute;
+  font-size: 12px;
 }
 
 .user__title:hover .hover__note,
-.refresh:hover .hover__note {
+.refresh:hover .hover__note,
+.home:hover .hover__note,
+.logout:hover .hover__note {
   display: inline-block;
   opacity: 1;
   transition: opacity 0.5s ease;
   overflow: visible;
 }
 
-.refresh {
+.refresh, .home, .logout {
   cursor: pointer;
 }
 
-.hover__note_refresh {
+.hover__note:not(.hover__note_sc) {
   line-height: 40px;
   margin-left: 8px;
   text-align: center;

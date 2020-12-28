@@ -5,20 +5,33 @@ import { Col, Row } from 'react-bootstrap';
 import SC from 'soundcloud';
 import Graph from '../components/Graph';
 import Sidebar from '../components/Sidebar';
+import LoginPage from '../components/LoginPage';
+import UserNav from '../components/UserNav';
+import history from '../history';
 import regeneratorRuntime from "regenerator-runtime";
 
-const UserProfile = ({ storedUser, dispatch }) => {
-  const [ user, setUser ] = useState()
-  const params = useParams()
+const UserProfile = ({ storedUser, signedInUser, dispatch }) => {
 
   useEffect(() => {
-    const id = params.hasOwnProperty('id') ? params.id : '';
-    if (storedUser && id === storedUser.id) {
-      setUser(storedUser)
-    } else {
-      resolveUser(id);
+    if (storedUser && storedUser.username !== "undefined") {
+      resolveUser(storedUser.id)
     }
-  }, [])
+  }, [storedUser])
+
+  useEffect(() => {
+  }, [storedUser])
+
+
+  useEffect(() => {
+    if (window.location.href.indexOf('home') > -1) {
+      let user = signedInUser;
+      resolveUser(signedInUser.id);
+      window.location.href = "http://plexis.org/";
+    } else if (signedInUser && (!storedUser || storedUser.username === "undefined")) {
+      let user = signedInUser;
+      dispatch({ type: 'SET_USER', user })
+    }
+  })
 
   const handleChange = e => {
     const id = e.target.attrs.id.toString();
@@ -26,30 +39,44 @@ const UserProfile = ({ storedUser, dispatch }) => {
   }
 
   const resolveUser = async (id) => {
-    await SC.get(`/users/${id}`).then((user) => {
-      setUser(user)
-      storedUser = user;
-      dispatch({ type: 'SET_USER', user })
-    });
+    if (storedUser.id !== id) {
+      await SC.get(`/users/${id}`).then((user) => {
+        dispatch({ type: 'SET_USER', user })
+      });
+    }
+  }
+
+  const goHome = () => {
+    let user = signedInUser;
+    dispatch({ type: 'SET_USER', user });
+  }
+
+  const onLogout = () => {
+    SC.initialize({ client_id: null, redirect_uri: null });
+    dispatch({ type: 'LOGOUT' });
   }
 
   return (
-    user ?
-      <Row>
-        <Col xs={2}>
-          <Sidebar user={user}/>
-        </Col>
-        <Col>
-          <Graph user={user} handleChange={handleChange}/>
-        </Col>
-      </Row>
-      : null
-      )
-    }
+    signedInUser ?
+      storedUser ?
+          <Row>
+            <Col xs={2}>
+              <Sidebar user={storedUser}/>
+              <UserNav className="plexis__menu" user={signedInUser} handleHomeClick={goHome} handleLogoutClick={onLogout}/>
+            </Col>
+            <Col>
+              <Graph user={storedUser} handleChange={handleChange}/>
+            </Col>
+          </Row>
+        : null
+    : (<LoginPage />)
+  )
+}
     
 const mapStateToProps = (state) => {
   return {
     storedUser: state.user.user,
+    signedInUser: state.auth.user
   }
 }
 

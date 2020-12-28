@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import UserNav from '../components/UserNav';
 import SearchBar from '../components/SearchBar';
 
-const Layout = ({ user, dispatch }) => {
+const Layout = () => {
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -22,15 +22,8 @@ const Layout = ({ user, dispatch }) => {
         />
       </Navbar.Brand>
       <SearchBar />
-      <UserNav className="plexis__menu" user={user}/>
     </Navbar>
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.auth.user,
-  }
-}
-
-export default connect(mapStateToProps)(Layout);
+export default Layout;

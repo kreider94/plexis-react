@@ -8,6 +8,8 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, {
         user: action.user
       })
+    case actionTypes.LOGOUT:
+      return initialState;
     default:
       return state;
   }

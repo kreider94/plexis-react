@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
-import UserProfile from '../containers/UserProfile';
 import history from '../history';
 import SC from 'soundcloud';
 

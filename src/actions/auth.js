@@ -22,3 +22,7 @@ function fetchMe(session) {
       });
   }
 };
+
+export function logout() {
+  return { type: actionTypes.LOGOUT }
+}

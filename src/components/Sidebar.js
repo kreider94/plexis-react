@@ -3,6 +3,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import ReactPlayer from "react-player/soundcloud";
 import SC from 'soundcloud';
 import { BiRefresh } from "react-icons/bi";
+import UserNav from './UserNav';
 
 const Sidebar = ({ user }) => {
   const [artistTrack, setArtistTrack] = useState();
@@ -39,29 +40,37 @@ const Sidebar = ({ user }) => {
     })
   }
 
-  return (
-    <Card>
-        <Card.Img src={user.avatar_url.replace('large', 't200x200')} />
-        <Card.Body>
-          <Card.Title>
-            <a className="user__title" target="_blank" href={user.permalink_url}>
-              {user.username}
-              <span className="hover__note hover__note_sc">go to SoundCloud profile</span>
-            </a>
-          </Card.Title>
-          <Card.Text>{user.city}</Card.Text>
-        </Card.Body>
-      <Col>
-        <Row className="refresh" onClick={() => refreshArtistTrack()} style={{height:'40px'}}>
-          <Col md={2}>
-            <BiRefresh className="refresh__icon" size="37px"/>
+  if (user) {
+    return (
+      <div>
+        <Card>
+          <Card.Img src={user.avatar_url.replace('large', 't200x200')} />
+          <Card.Body>
+            <Card.Title>
+              <a className="user__title" target="_blank" href={user.permalink_url}>
+                {user.username}
+                <span className="hover__note hover__note_sc">go to SoundCloud profile</span>
+              </a>
+            </Card.Title>
+            <Card.Text>{user.city}</Card.Text>
+          </Card.Body>
+          { artistTrack ? <ReactPlayer className="sc__player" url={artistTrack} /> : ''}
+        </Card>
+        <Row>
+          <Col>
+            <Row className="refresh" onClick={() => refreshArtistTrack()} style={{height:'40px'}}>
+              <Col md={2}>
+                <BiRefresh className="refresh__icon" size="40px"/>
+              </Col>
+              <span className="hover__note hover__note_refresh">load new track</span>
+            </Row>
           </Col>
-          <span className="hover__note hover__note_refresh">load new track</span>
         </Row>
-      </Col>
-      { artistTrack ? <ReactPlayer className="sc__player" url={artistTrack} /> : ''}
-    </Card>
-  )
+      </div>
+    )
+  } else {
+    return null;
+  }
 }
 
 
