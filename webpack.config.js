@@ -27,7 +27,18 @@ module.exports = {
                        '@babel/preset-react',{
                        'plugins': ['@babel/plugin-proposal-class-properties']}]
          }
-      }
+      },
+      {
+        test: /.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: [{
+            loader: 'babel-loader',
+            options: {
+                cacheDirectory: true,
+                plugins: ['@babel/plugin-transform-runtime']
+            }
+        }]
+    },
     ]
   },
   resolve: {

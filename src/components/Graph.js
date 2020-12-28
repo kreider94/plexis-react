@@ -10,9 +10,6 @@ const Graph = ({ user, handleChange, dispatch }) => {
   const [relatedArtists, setRelatedArtists] = useState([]);
   const [hoveredArtist, setHoveredArtist] = useState(null);
 
-  const hoveredStyle = {
-
-  }
   useEffect(() => {
     if (user)
       populateUserProfile()
@@ -91,6 +88,7 @@ const Graph = ({ user, handleChange, dispatch }) => {
                 fontSize='34'
                 fontFamily='Helvetica Neue'
                 fontStyle='bold'
+                fill='white'
                 />
             : null}
             {relatedArtists.map((batch, batchNum) => {

@@ -2,9 +2,10 @@ import React from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 import history from '../history';
 import SC from 'soundcloud';
+import { connect } from 'react-redux';
 
 
-const SearchBar = () => {
+const SearchBar = ({ dispatch }) => {
   const handleKeyPress = async (e) => {
     if (e.charCode===13) {
       const result = e.target.value;
@@ -13,14 +14,14 @@ const SearchBar = () => {
           client_id: 'm3kCd053xVXYtaEYQZ2e87SWSSuYnunA',
           url: 'https://soundcloud.com/' + result
       }).then((user) => {
-        history.push('/profile/'+user.id)
+        dispatch({ type: 'SET_USER', user});
         window.location.reload(false);
       });
     }
   }
 
   return (
-    <Form className="mx-auto" inline>
+    <Form className="search__bar_form" inline>
       <InputGroup className="search__bar">
         <InputGroup.Prepend>
           <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
@@ -36,4 +37,4 @@ const SearchBar = () => {
   )
 }
 
-export default SearchBar
+export default connect(null, null)(SearchBar)

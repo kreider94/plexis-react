@@ -11,7 +11,7 @@ const Layout = () => {
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand
         href="#home" 
-        style={{backgroundColor:"#48879e", padding:'5px', borderRadius: '3px'}}
+        style={{padding:'5px', borderRadius: '3px'}}
       >
         <img
           src={mainLogo}

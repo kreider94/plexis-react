@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Col, Row } from 'react-bootstrap';
 import SC from 'soundcloud';
@@ -7,8 +6,6 @@ import Graph from '../components/Graph';
 import Sidebar from '../components/Sidebar';
 import LoginPage from '../components/LoginPage';
 import UserNav from '../components/UserNav';
-import history from '../history';
-import regeneratorRuntime from "regenerator-runtime";
 
 const UserProfile = ({ storedUser, signedInUser, dispatch }) => {
 
@@ -23,11 +20,7 @@ const UserProfile = ({ storedUser, signedInUser, dispatch }) => {
 
 
   useEffect(() => {
-    if (window.location.href.indexOf('home') > -1) {
-      let user = signedInUser;
-      resolveUser(signedInUser.id);
-      window.location.href = "http://plexis.org/";
-    } else if (signedInUser && (!storedUser || storedUser.username === "undefined")) {
+    if (signedInUser && (!storedUser || storedUser.username === "undefined")) {
       let user = signedInUser;
       dispatch({ type: 'SET_USER', user })
     }
@@ -59,7 +52,7 @@ const UserProfile = ({ storedUser, signedInUser, dispatch }) => {
   return (
     signedInUser ?
       storedUser ?
-          <Row>
+          <Row className="main__container">
             <Col xs={2}>
               <Sidebar user={storedUser}/>
               <UserNav className="plexis__menu" user={signedInUser} handleHomeClick={goHome} handleLogoutClick={onLogout}/>

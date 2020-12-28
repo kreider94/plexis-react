@@ -62,7 +62,7 @@ const UserNode = ({ userId, avatar, username, batch, batchAmount, handleClick, h
       native
       from={{ opacity: 0.6, shadowEnabled: true }}
       to={{
-        opacity: hovered ? 1 : 0.6,
+        opacity: hovered ? 1 : 0.8,
         radius: hovered ? 50 : 40,
         x: ((batch + 1) * 75 * Math.cos(angle)) + (dimensions.width/3),
         y: ((batch + 1) * 75 * Math.sin(angle)) + (dimensions.height/2.5),

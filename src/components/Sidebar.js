@@ -3,7 +3,6 @@ import { Card, Row, Col } from 'react-bootstrap';
 import ReactPlayer from "react-player/soundcloud";
 import SC from 'soundcloud';
 import { BiRefresh } from "react-icons/bi";
-import UserNav from './UserNav';
 
 const Sidebar = ({ user }) => {
   const [artistTrack, setArtistTrack] = useState();
@@ -60,7 +59,7 @@ const Sidebar = ({ user }) => {
           <Col>
             <Row className="refresh" onClick={() => refreshArtistTrack()} style={{height:'40px'}}>
               <Col md={2}>
-                <BiRefresh className="refresh__icon" size="40px"/>
+                <BiRefresh className="refresh__icon" fill="white" size="40px"/>
               </Col>
               <span className="hover__note hover__note_refresh">load new track</span>
             </Row>

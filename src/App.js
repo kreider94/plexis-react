@@ -1,24 +1,25 @@
-import React from 'react';
-import { Container, Row, Col, Navbar, Form, FormControl, InputGroup, NavDropdown, Nav } from 'react-bootstrap';
-import mainLogo from './assets/logo.png';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Callback from './components/Callback';
-import Home from './components/Home';
-import { createBrowserHistory } from 'history';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import UserProfile from './containers/UserProfile';
+import LoginPage from './components/LoginPage';
 
-const history = createBrowserHistory();
+const App = ({ user }) => {
 
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <Container className="app-wrapper" fluid>
-          <Home />
-        </Container>
-      </div>
-    )
-  }
+  useEffect(() => {
+    console.log("refreshing...")
+  }, [user]);
+
+  return (
+    user ?
+      <UserProfile />
+    :
+      <LoginPage />
+  )
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  const { user } = state.auth;
+  return { user }
+}
+
+export default connect(mapStateToProps)(App);

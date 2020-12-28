@@ -14,13 +14,13 @@ const UserNav = ({ user, handleHomeClick, handleLogoutClick }) => {
         <Col>
           <Row className="home" onClick={handleHomeClick} style={{height:'40px'}}>
             <Col md={2}>
-              <BiHomeAlt className="home__icon" size="37px"/>
+              <BiHomeAlt className="home__icon" fill="white" size="37px"/>
             </Col>
             <span className="hover__note hover__note_home">go home</span>
           </Row>
           <Row className="logout" onClick={handleLogoutClick} style={{height:'40px'}}>
             <Col md={2}>
-              <BiLogOutCircle className="logout__icon" size="37px"/>
+              <BiLogOutCircle className="logout__icon" fill="white" size="37px"/>
             </Col>
             <span className="hover__note hover__note_logout">logout</span>
           </Row>
